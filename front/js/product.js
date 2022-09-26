@@ -4,6 +4,10 @@ const urlSearch = new URLSearchParams(getProductId);
 
 const productId = urlSearch.get("id");
 
+const colors = document.querySelector("#colors");
+
+const quantity = document.querySelector("#quantity");
+
 async function fetchProduct() {
   return await fetch(`http://localhost:3000/api/products/${productId}`)
     .then(function (response) {
@@ -31,17 +35,33 @@ function generateproduct(productData) {
   description.innerHTML = productData.description;
 
   for (let index = 0; index < productData.colors.length; index++) {
-    const colors = document.querySelector("#colors");
     const option = document.createElement("option");
     option.innerHTML = productData.colors[index];
     option.value = productData.colors[index];
     colors.appendChild(option);
   }
 }
+function addcart() {
+  let buttoncart = document.querySelector("#addToCart");
+  buttoncart.addEventListener("click", function () {
+    let productTable = JSON.parse(localStorage.getItem("productCart") || "[]");
+    let product = {
+      productId: productId,
+      color: colors.value,
+      quantity: quantity.value,
+    };
+    if (productTable= )
+
+    productTable.push(product);
+    localStorage.setItem("productCart", JSON.stringify(productTable));
+    //window.location.href = "./cart.html";
+  });
+}
 
 async function main() {
   const product = await fetchProduct();
 
   generateproduct(product);
+  addcart();
 }
 main();
