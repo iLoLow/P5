@@ -1,5 +1,6 @@
 //Récupération de l'id en brut
 const getProductId = window.location.search;
+console.log(getProductId);
 
 const urlSearch = new URLSearchParams(getProductId);
 console.log(urlSearch);
