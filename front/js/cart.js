@@ -19,6 +19,8 @@ function generateCart(arrayCart) {
 
     const article = document.createElement("article");
     article.classList.add("cart__item");
+    article.setAttribute("data-id", arrayCart[index].productId);
+    article.setAttribute("data-color", arrayCart[index].color);
     sectionCartItem.appendChild(article);
 
     const divImg = document.createElement("div");
@@ -32,6 +34,7 @@ function generateCart(arrayCart) {
 
     const divItemContent = document.createElement("div");
     divItemContent.classList.add("cart__item__content");
+
     article.appendChild(divItemContent);
 
     const divItemContentDescription = document.createElement("div");
@@ -59,11 +62,27 @@ function generateCart(arrayCart) {
     divSettings.appendChild(divQuantity);
 
     const pQuantity = document.createElement("p");
-    pQuantity.innerHTML = "Qté : " + arrayCart[index].quantity;
+    pQuantity.innerHTML = "Qté : ";
     divQuantity.appendChild(pQuantity);
 
-    /* const input = document.createElement("input");
-    input.setAttribute */
+    const input = document.createElement("input");
+
+    input.setAttribute("type", "number");
+    input.classList.add("itemQuantity");
+    input.setAttribute("name", "itemQuantity");
+    input.setAttribute("min", "1");
+    input.setAttribute("max", "100");
+    input.setAttribute("value", arrayCart[index].quantity);
+    divQuantity.appendChild(input);
+
+    const divSettingsDelete = document.createElement("div");
+    divSettingsDelete.classList.add("cart__item__content__settings__delete");
+    divSettings.appendChild(divSettingsDelete);
+
+    const pDeleteItem = document.createElement("p");
+    pDeleteItem.classList.add("deleteItem");
+    pDeleteItem.innerHTML = "Supprimer";
+    divSettingsDelete.appendChild(pDeleteItem);
   }
 }
 
