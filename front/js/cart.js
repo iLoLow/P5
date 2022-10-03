@@ -83,6 +83,12 @@ function generateCart(arrayCart) {
     pDeleteItem.classList.add("deleteItem");
     pDeleteItem.innerHTML = "Supprimer";
     divSettingsDelete.appendChild(pDeleteItem);
+
+    /* let totalprice = arrayCart[index].quantity * arrayCart[index].price;
+    let totalQuantity = arrayCart[index].quantity;
+
+    console.log(totalprice);
+    console.log(totalQuantity); */
   }
 }
 
