@@ -21,6 +21,8 @@ async function fetchProduct() {
 }
 //Fonction pour generer un produit grace a id
 function generateproduct(productData) {
+  const titlePage = document.querySelector("title");
+  titlePage.innerHTML = productData.name;
   //selection de la balise div class item__img
   const div = document.querySelector(".item__img");
   //création de la balise img
