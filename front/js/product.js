@@ -1,9 +1,8 @@
-//Récupération de l'id en brut
+//Récupération de l'id
 const getProductId = window.location.search;
-console.log(getProductId);
 
 const urlSearch = new URLSearchParams(getProductId);
-console.log(urlSearch);
+
 const productId = urlSearch.get("id");
 //Section de la balise select avec l'ID colors
 const colors = document.querySelector("#colors");
@@ -21,6 +20,7 @@ async function fetchProduct() {
 }
 //Fonction pour generer un produit grace a id
 function generateproduct(productData) {
+  //ajout du nom de l'article dans la balise title du head
   const titlePage = document.querySelector("title");
   titlePage.innerHTML = productData.name;
   //selection de la balise div class item__img
@@ -76,6 +76,7 @@ function addcart() {
     //Condition verification si un produit n'ai pas present, alors envoie dans le localstorage
     if (productTable.length === 0) {
       productTable.push(product);
+
       localStorage.setItem("productCart", JSON.stringify(productTable));
       //Condition si un produit est present dans le localstorage avec une meme couleur
     } else if (productTable) {
@@ -85,9 +86,19 @@ function addcart() {
       //Condition pour additionner les quantités d'un produit avec la même couleur
       if (productInCart) {
         productInCart.quantity = Number(product.quantity) + Number(productInCart.quantity);
+
         localStorage.setItem("productCart", JSON.stringify(productTable));
       } else {
         productTable.push(product);
+        productTable.sort(function (a, b) {
+          if (a.productId < b.productId) {
+            return -1;
+          }
+          if (a.productId > b.productId) {
+            return 1;
+          }
+          return 0;
+        });
         localStorage.setItem("productCart", JSON.stringify(productTable));
       }
     }

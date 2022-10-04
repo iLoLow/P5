@@ -1,3 +1,7 @@
+const totalQuantity = document.querySelector("#totalQuantity");
+
+const totalPrice = document.querySelector("#totalPrice");
+
 async function fetchProduct() {
   return await fetch(`http://localhost:3000/api/products`)
     .then(function (response) {
@@ -83,17 +87,41 @@ function generateCart(arrayCart) {
     pDeleteItem.classList.add("deleteItem");
     pDeleteItem.innerHTML = "Supprimer";
     divSettingsDelete.appendChild(pDeleteItem);
-
-    /* let totalprice = arrayCart[index].quantity * arrayCart[index].price;
-    let totalQuantity = arrayCart[index].quantity;
-
-    console.log(totalprice);
-    console.log(totalQuantity); */
   }
 }
+function calcTotalPrice(arrayCart) {
+  let totalPrice = 0;
+  for (let index = 0; index < arrayCart.length; index++) {
+    totalPrice += Number(arrayCart[index].quantity * arrayCart[index].price);
+  }
+  return totalPrice;
+}
+function calcTotalQuantity(arrayCart) {
+  let totalQuantity = 0;
+  for (let index = 0; index < arrayCart.length; index++) {
+    totalQuantity += Number(arrayCart[index].quantity);
+  }
+  return totalQuantity;
+}
+function addProductQuantity(productInCart) {
+  let buttonQuantity = document.querySelector(".itemQuantity");
+  buttonQuantity.addEventListener("Change", function () {
+    if (productInCart.productId && productInCart.color) {
+      productInCart.quantity += Number(buttonQuantity.value.quantity) + Number(productInCart.quantity);
 
+      return localStorage.setItem("productCart", JSON.stringify(productsInCart));
+    }
+  });
+}
+function removeProduct() {
+  let buttonRemove = document.querySelector(".deleteItem");
+  buttonRemove.addEventListener("Click", function () {
+    buttonRemove.closest();
+  });
+}
 async function main() {
-  let productsInCart = JSON.parse(localStorage.getItem("productCart"));
+  let productsInCart = JSON.parse(localStorage.getItem("productCart") || "[]");
+
   const products = await fetchProduct();
   let filteredProducts = [];
   productsInCart.forEach(function (productInCart) {
@@ -113,5 +141,8 @@ async function main() {
   });
 
   generateCart(filteredProducts);
+
+  totalPrice.innerHTML = calcTotalPrice(filteredProducts);
+  totalQuantity.innerHTML = calcTotalQuantity(filteredProducts);
 }
 main();
