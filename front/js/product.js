@@ -78,16 +78,17 @@ function addcart() {
       productTable.push(product);
 
       localStorage.setItem("productCart", JSON.stringify(productTable));
-      //Condition si un produit est present dans le localstorage avec une meme couleur
+      //Condition si un produit est present dans le localstorage avec une meme couleur et même ID
     } else if (productTable) {
-      let productInCart = productTable.find(function (p) {
-        return product.productId === p.productId && product.color === p.color;
+      let productInCart = productTable.find(function (array) {
+        return array.productId === product.productId && array.color === product.color;
       });
       //Condition pour additionner les quantités d'un produit avec la même couleur
       if (productInCart) {
         productInCart.quantity = Number(product.quantity) + Number(productInCart.quantity);
 
         localStorage.setItem("productCart", JSON.stringify(productTable));
+        //
       } else {
         productTable.push(product);
         productTable.sort(function (a, b) {

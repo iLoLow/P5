@@ -2,6 +2,8 @@ const totalQuantity = document.querySelector("#totalQuantity");
 
 const totalPrice = document.querySelector("#totalPrice");
 
+let productsInCart = JSON.parse(localStorage.getItem("productCart") || "[]");
+
 async function fetchProduct() {
   return await fetch(`http://localhost:3000/api/products`)
     .then(function (response) {
@@ -89,6 +91,7 @@ function generateCart(arrayCart) {
     divSettingsDelete.appendChild(pDeleteItem);
   }
 }
+
 function calcTotalPrice(arrayCart) {
   let totalPrice = 0;
   for (let index = 0; index < arrayCart.length; index++) {
@@ -103,25 +106,33 @@ function calcTotalQuantity(arrayCart) {
   }
   return totalQuantity;
 }
-function addProductQuantity(productInCart) {
-  let buttonQuantity = document.querySelector(".itemQuantity");
-  buttonQuantity.addEventListener("Change", function () {
-    if (productInCart.productId && productInCart.color) {
-      productInCart.quantity += Number(buttonQuantity.value.quantity) + Number(productInCart.quantity);
 
-      return localStorage.setItem("productCart", JSON.stringify(productsInCart));
-    }
-  });
+function addProductQuantity(arrayCart) {
+  let buttonsQuantity = document.querySelectorAll(".itemQuantity");
+
+  for (let index = 0; index < buttonsQuantity.length; index++) {
+    buttonsQuantity[index].addEventListener("change", function (event) {
+      event.preventDefault();
+      productsInCart = JSON.parse(localStorage.getItem("productCart") || "[]");
+      console.log(event.target.value);
+      productsInCart[index].quantity = event.target.value;
+      arrayCart[index].quantity = event.target.value;
+      buttonsQuantity[index].setAttribute("value", event.target.value);
+      console.log(buttonsQuantity[index].value);
+      localStorage.setItem("productCart", JSON.stringify(productsInCart));
+      totalPrice.innerHTML = calcTotalPrice(arrayCart);
+      totalQuantity.innerHTML = calcTotalQuantity(arrayCart);
+    });
+  }
 }
-function removeProduct() {
+
+/* function removeProduct() {
   let buttonRemove = document.querySelector(".deleteItem");
   buttonRemove.addEventListener("Click", function () {
     buttonRemove.closest();
   });
-}
+} */
 async function main() {
-  let productsInCart = JSON.parse(localStorage.getItem("productCart") || "[]");
-
   const products = await fetchProduct();
   let filteredProducts = [];
   productsInCart.forEach(function (productInCart) {
@@ -144,5 +155,7 @@ async function main() {
 
   totalPrice.innerHTML = calcTotalPrice(filteredProducts);
   totalQuantity.innerHTML = calcTotalQuantity(filteredProducts);
+  addProductQuantity(filteredProducts);
+  console.log(filteredProducts);
 }
 main();
