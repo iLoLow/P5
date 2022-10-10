@@ -78,6 +78,7 @@ function addcart() {
       productTable.push(product);
 
       localStorage.setItem("productCart", JSON.stringify(productTable));
+      alert("Votre produit est ajouté au panier");
       //Condition si un produit est present dans le localstorage avec une meme couleur et même ID
     } else if (productTable) {
       let productInCart = productTable.find(function (array) {
@@ -88,6 +89,7 @@ function addcart() {
         productInCart.quantity = Number(product.quantity) + Number(productInCart.quantity);
 
         localStorage.setItem("productCart", JSON.stringify(productTable));
+        alert("Votre produit est ajouté au panier");
         //
       } else {
         productTable.push(product);
@@ -101,10 +103,11 @@ function addcart() {
           return 0;
         });
         localStorage.setItem("productCart", JSON.stringify(productTable));
+        alert("Votre produit est ajouté au panier");
       }
     }
     //Redirection dans la page panier
-    window.location.href = "../html/cart.html";
+    //window.location.href = "../html/cart.html";
   });
 }
 

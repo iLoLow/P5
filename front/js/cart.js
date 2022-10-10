@@ -114,11 +114,11 @@ function addProductQuantity(arrayCart) {
     buttonsQuantity[index].addEventListener("change", function (event) {
       event.preventDefault();
       productsInCart = JSON.parse(localStorage.getItem("productCart") || "[]");
-      console.log(event.target.value);
-      productsInCart[index].quantity = event.target.value;
-      arrayCart[index].quantity = event.target.value;
+
+      productsInCart[index].quantity = Number(event.target.value);
+      arrayCart[index].quantity = Number(event.target.value);
       buttonsQuantity[index].setAttribute("value", event.target.value);
-      console.log(buttonsQuantity[index].value);
+
       localStorage.setItem("productCart", JSON.stringify(productsInCart));
       totalPrice.innerHTML = calcTotalPrice(arrayCart);
       totalQuantity.innerHTML = calcTotalQuantity(arrayCart);
@@ -126,12 +126,33 @@ function addProductQuantity(arrayCart) {
   }
 }
 
-/* function removeProduct() {
-  let buttonRemove = document.querySelector(".deleteItem");
-  buttonRemove.addEventListener("Click", function () {
-    buttonRemove.closest();
-  });
+/* function removeProduct(arrayCart) {
+  let buttonsremove = document.querySelectorAll(".deleteItem");
+
+  for (let index = 0; index < buttonsremove.length; index++) {
+    buttonsremove[index].addEventListener("click", function () {
+      buttonsremove.preventDefault();
+      productsInCart = JSON.parse(localStorage.getItem("productCart") || "[]");
+
+      buttonsremove.splice(arrayCart[index], 1);
+      localStorage.setItem("productCart", JSON.stringify(productsInCart));
+      totalPrice.innerHTML = calcTotalPrice(arrayCart);
+      totalQuantity.innerHTML = calcTotalQuantity(arrayCart);
+    });
+  }
 } */
+function removeProduct() {
+  let buttonsremove = document.querySelectorAll(".deleteItem");
+
+  buttonsremove[index].addEventListener("click", function () {
+    buttonsremove.preventDefault();
+    productsInCart = JSON.parse(localStorage.getItem("productCart") || "[]");
+
+    productsInCart.splice(productsInCart[index].productId, 1);
+    localStorage.setItem("productCart", JSON.stringify(productsInCart));
+  });
+}
+
 async function main() {
   const products = await fetchProduct();
   let filteredProducts = [];
@@ -156,6 +177,6 @@ async function main() {
   totalPrice.innerHTML = calcTotalPrice(filteredProducts);
   totalQuantity.innerHTML = calcTotalQuantity(filteredProducts);
   addProductQuantity(filteredProducts);
-  console.log(filteredProducts);
+  removeProduct(productsInCart);
 }
 main();
