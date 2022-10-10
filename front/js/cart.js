@@ -135,9 +135,7 @@ function removeProduct(arrayCart) {
         return;
       }
       productsInCart = JSON.parse(localStorage.getItem("productCart") || "[]");
-      const del = e.target.closest("article");
-      del.remove("article");
-      console.log(e.target.closest("article"));
+
       productsInCart.splice(index, 1);
 
       localStorage.setItem("productCart", JSON.stringify(productsInCart));
@@ -149,8 +147,16 @@ function removeProduct(arrayCart) {
   }
 }
 
+function form() {
+  let formcart = document.querySelectorAll(".cart__order__form");
+  formcart.addEventListener("submit", function (e) {
+    e.preventDefault();
+  });
+}
+
 async function main() {
   const products = await fetchProduct();
+
   let filteredProducts = [];
   productsInCart.forEach(function (productInCart) {
     products.forEach(function (product) {
