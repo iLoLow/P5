@@ -98,13 +98,12 @@ function addcart() {
     //si le localstorage est vide
     if (productTable === null) {
       productTable = [];
-      console.log("pas de produit ");
 
       productTable.push(product);
       localStorage.setItem("productCart", JSON.stringify(productTable));
     } else {
       //
-      console.log("produit exite");
+
       let productInCart = productTable.find(function (array) {
         return array.productId === product.productId && array.color === product.color;
       });
@@ -113,11 +112,10 @@ function addcart() {
       if (productInCart) {
         let newQuantity = Number(product.quantity) + Number(productInCart.quantity);
         //verifie si la quandtité est superieur a 100
-        console.log(newQuantity);
+
         if (newQuantity > 100) {
           return alert(`Vous avez déjà ${productInCart.quantity} articles dans le panier, maximum 100.`);
         } else {
-          console.log("------------------");
           productInCart.quantity = Number(product.quantity) + Number(productInCart.quantity);
           localStorage.setItem("productCart", JSON.stringify(productTable));
         }

@@ -115,8 +115,13 @@ function addProductQuantity(arrayCart) {
   for (let index = 0; index < buttonsQuantity.length; index++) {
     buttonsQuantity[index].addEventListener("change", function (event) {
       event.preventDefault();
+      ////verification si l'input quantity a un nombre entier entre de 1 à 100.
       if (!Number.isInteger(Number(event.target.value))) {
         return alert("Veuillez choisir un nombre entier entre 1 et 100.");
+      }
+      //verification si l'input quantity a une valeur de 1 à 100.
+      if (event.target.value === 0 || event.target.value < 1 || event.target.value > 100) {
+        return alert("Veuillez choisir une quantité entre 1 et 100.");
       }
       productsInCart = JSON.parse(localStorage.getItem("productCart") || "[]");
 
@@ -238,6 +243,7 @@ function form() {
         }
         isValid = false;
       }
+      //Si toutes les information du formulaire sont valide , faire une requete a l'api pour avoir order-Id
       if (isValid) {
         let productsId = [];
         for (let index = 0; index < productsInCart.length; index++) {
