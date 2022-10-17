@@ -26,7 +26,7 @@ function generateCart(arrayCart) {
 
     const article = document.createElement("article");
     article.classList.add("cart__item");
-    article.setAttribute("data-id", arrayCart[index].productId);
+    article.setAttribute("data-id", arrayCart[index]._id);
     article.setAttribute("data-color", arrayCart[index].color);
     sectionCartItem.appendChild(article);
 
@@ -92,6 +92,7 @@ function generateCart(arrayCart) {
     divSettingsDelete.appendChild(pDeleteItem);
   }
 }
+
 //Calcul du prix total des articles du panier
 function calcTotalPrice(arrayCart) {
   let totalPrice = 0;
@@ -100,6 +101,7 @@ function calcTotalPrice(arrayCart) {
   }
   return totalPrice;
 }
+
 //Calcul de la quantité total des articles du panier
 function calcTotalQuantity(arrayCart) {
   let totalQuantity = 0;
@@ -108,34 +110,42 @@ function calcTotalQuantity(arrayCart) {
   }
   return totalQuantity;
 }
+
 //fonction pour ecouter les changements de quantité et les appliquer dans le localstorage
 function addProductQuantity(arrayCart) {
   let buttonsQuantity = document.querySelectorAll(".itemQuantity");
+
   //boucle pour ecouter l'input quantité et modifier la quantité
   for (let index = 0; index < buttonsQuantity.length; index++) {
     buttonsQuantity[index].addEventListener("change", function (event) {
       event.preventDefault();
-      ////verification si l'input quantity a un nombre entier entre de 1 à 100.
+
+      //verification si l'input quantity a un nombre entier entre de 1 à 100.
       if (!Number.isInteger(Number(event.target.value))) {
-        return alert("Veuillez choisir un nombre entier entre 1 et 100.");
+        return (event.target.value = productsInCart[index].quantity), alert("Veuillez choisir un nombre entier entre 1 et 100.");
       }
-      //verification si l'input quantity a une valeur de 1 à 100.
+
+      //verification si l'input quantity a une valeur inferieur à 1
       if (event.target.value === 0 || event.target.value < 1 || event.target.value > 100) {
-        return alert("Veuillez choisir une quantité entre 1 et 100.");
+        return (event.target.value = productsInCart[index].quantity), alert("Veuillez choisir une quantité entre 1 et 100.");
       }
+
       productsInCart = JSON.parse(localStorage.getItem("productCart") || "[]");
 
       productsInCart[index].quantity = Number(event.target.value);
       arrayCart[index].quantity = Number(event.target.value);
       buttonsQuantity[index].setAttribute("value", event.target.value);
+
       //mise a jour du local storage
       localStorage.setItem("productCart", JSON.stringify(productsInCart));
+
       //mise a jour du prix et de la quantité apres modification de la quantité d'un article
       totalPrice.innerHTML = calcTotalPrice(arrayCart);
       totalQuantity.innerHTML = calcTotalQuantity(arrayCart);
     });
   }
 }
+
 //fonction pour écouter les boutons supprimer et éffacer l'article dans le local storage
 function removeProduct(arrayCart) {
   let buttonsremove = document.querySelectorAll(".deleteItem");
@@ -172,7 +182,8 @@ function form() {
     dysplayNoneForm.innerHTML = "";
   } else {
     let formCart = document.querySelector("#order");
-    //ecoute du bouton commander au clic
+
+    //Ecoute du bouton commander au clic
     formCart.addEventListener("click", function (e) {
       e.preventDefault();
 
@@ -189,6 +200,8 @@ function form() {
       const regexEmail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g;
 
       let isValid = true;
+
+      //Si un ou plusieurs champs du formulaire de son pas valide
       if (
         !firstName.match(regexNameLastNameCity) ||
         !lastName.match(regexNameLastNameCity) ||
@@ -196,6 +209,7 @@ function form() {
         !city.match(regexNameLastNameCity) ||
         !email.match(regexEmail)
       ) {
+        //v
         if (!firstName.match(regexNameLastNameCity)) {
           const firstNameErrorMsg = document.querySelector("#firstNameErrorMsg");
           isValid = false;
@@ -247,7 +261,7 @@ function form() {
       if (isValid) {
         let productsId = [];
         for (let index = 0; index < productsInCart.length; index++) {
-          productsId.push(productsInCart[index].productId);
+          productsId.push(productsInCart[index]._id);
         }
         fetch("http://localhost:3000/api/products/order", {
           method: "POST",
@@ -287,9 +301,9 @@ async function main() {
   //Fusion de tableau (tableau des produits de l'api et du tableau local storage)
   productsInCart.forEach(function (productInCart) {
     products.forEach(function (product) {
-      if (productInCart.productId === product._id) {
+      if (productInCart._id === product._id) {
         filteredProducts.push({
-          productId: productInCart.productId,
+          _id: productInCart._id,
           name: product.name,
           imageUrl: product.imageUrl,
           altTxt: product.altTxt,

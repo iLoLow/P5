@@ -75,7 +75,7 @@ function addcart() {
 
     //Declaration de la variable product pour indiquer les valeurs colors et quantité
     let product = {
-      productId: productId,
+      _id: productId,
       color: colors.value,
       quantity: Number(quantity.value),
     };
@@ -105,14 +105,14 @@ function addcart() {
       //
 
       let productInCart = productTable.find(function (array) {
-        return array.productId === product.productId && array.color === product.color;
+        return array._id === product._id && array.color === product.color;
       });
 
-      //si le produit exite deja dans le panier
+      //verifie si le produit exite deja dans le panier
       if (productInCart) {
         let newQuantity = Number(product.quantity) + Number(productInCart.quantity);
-        //verifie si la quandtité est superieur a 100
 
+        //verifie si la quandtité est superieur a 100
         if (newQuantity > 100) {
           return alert(`Vous avez déjà ${productInCart.quantity} articles dans le panier, maximum 100.`);
         } else {
@@ -122,10 +122,10 @@ function addcart() {
       } else {
         productTable.push(product);
         productTable.sort(function (a, b) {
-          if (a.productId < b.productId) {
+          if (a._id < b._id) {
             return -1;
           }
-          if (a.productId > b.productId) {
+          if (a._id > b._id) {
             return 1;
           }
           return 0;
