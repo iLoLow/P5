@@ -209,16 +209,19 @@ function form() {
         !city.match(regexNameLastNameCity) ||
         !email.match(regexEmail)
       ) {
-        //v
+        //si le champ firstName et mal remplie, message erreur
         if (!firstName.match(regexNameLastNameCity)) {
           const firstNameErrorMsg = document.querySelector("#firstNameErrorMsg");
           isValid = false;
           firstNameErrorMsg.innerHTML = "Veuillez rentrer un nom entre 3 et 30 caractère (Chiffre(s) et symbole(s) interdit)";
         } else {
+          //
           firstName.trim();
           isValid = true;
           firstNameErrorMsg.innerHTML = "";
         }
+
+        //si le champ lastName et mal remplie, message erreur
         if (!lastName.match(regexNameLastNameCity)) {
           const lastNameErrorMsg = document.querySelector("#lastNameErrorMsg");
           isValid = false;
@@ -228,6 +231,8 @@ function form() {
           isValid = true;
           lastNameErrorMsg.innerHTML = "";
         }
+
+        //si le champ address et mal remplie, message erreur
         if (!address.match(regexAddress)) {
           const addressErrorMsg = document.querySelector("#addressErrorMsg");
           isValid = false;
@@ -237,6 +242,8 @@ function form() {
           isValid = true;
           addressErrorMsg.innerHTML = "";
         }
+
+        ////si le champ city et mal remplie, message erreur
         if (!city.match(regexNameLastNameCity)) {
           const cityErrorMsg = document.querySelector("#cityErrorMsg");
           isValid = false;
@@ -246,6 +253,8 @@ function form() {
           isValid = true;
           cityErrorMsg.innerHTML = "";
         }
+
+        //si le champ email et mal remplie, message erreur
         if (!email.match(regexEmail)) {
           const emailErrorMsg = document.querySelector("#emailErrorMsg");
           isValid = false;
@@ -257,12 +266,14 @@ function form() {
         }
         isValid = false;
       }
+
       //Si toutes les information du formulaire sont valide , faire une requete a l'api pour avoir order-Id
       if (isValid) {
         let productsId = [];
         for (let index = 0; index < productsInCart.length; index++) {
           productsId.push(productsInCart[index]._id);
         }
+        console.log(productsId);
         fetch("http://localhost:3000/api/products/order", {
           method: "POST",
           headers: { "Content-Type": "application/json" },

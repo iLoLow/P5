@@ -19,10 +19,7 @@ async function fetchProduct() {
     });
 }
 
-/**
- * Fonction pour generer un produit grace a id
- * @param {object} productData
- */
+//function pour afficher un produit
 function generateproduct(productData) {
   //ajout du nom de l'article dans la balise title du head
   const titlePage = document.querySelector("title");
@@ -62,14 +59,11 @@ function generateproduct(productData) {
     colors.appendChild(option);
   }
 }
+
 //fonction pour ajouter produit dans le local storage
 function addcart() {
-  //Selection de la balise button avec l'ID addToCart
   let buttoncart = document.querySelector("#addToCart");
 
-  /**
-   * Ecoute bouton panier
-   */
   buttoncart.addEventListener("click", function () {
     let productTable = JSON.parse(localStorage.getItem("productCart"));
 
@@ -108,7 +102,7 @@ function addcart() {
         return array._id === product._id && array.color === product.color;
       });
 
-      //verifie si le produit exite deja dans le panier
+      //verifie si le produit exite deja dans le panier, si oui l'ajoute
       if (productInCart) {
         let newQuantity = Number(product.quantity) + Number(productInCart.quantity);
 
@@ -120,6 +114,7 @@ function addcart() {
           localStorage.setItem("productCart", JSON.stringify(productTable));
         }
       } else {
+        //classer les produits pas id
         productTable.push(product);
         productTable.sort(function (a, b) {
           if (a._id < b._id) {
