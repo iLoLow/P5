@@ -292,7 +292,7 @@ function form() {
             return response.json();
           })
           .then(function (order) {
-            window.location.href = `./confirmation.html?orderId=${order.orderId}`;
+            window.location.href = `confirmation.html?orderId=${order.orderId}`;
           })
           .finally(function () {
             localStorage.clear();
