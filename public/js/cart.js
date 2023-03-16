@@ -274,7 +274,7 @@ function form() {
           productsId.push(productsInCart[index]._id);
         }
         console.log(productsId);
-        fetch("http://localhost:3000/api/products/order", {
+        fetch("api/products/order", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
