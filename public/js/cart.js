@@ -5,7 +5,7 @@ const totalPrice = document.querySelector("#totalPrice");
 let productsInCart = JSON.parse(localStorage.getItem("productCart") || "[]");
 //Appel de l'api pour recuperer les produits
 async function fetchProduct() {
-  return await fetch(`http://localhost:3000/api/products`)
+  return await fetch(`api/products`)
     .then(function (response) {
       if (response.ok) {
         return response.json();

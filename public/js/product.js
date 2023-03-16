@@ -10,7 +10,7 @@ const colors = document.querySelector("#colors");
 const quantity = document.querySelector("#quantity");
 //Récupération du produit dans l'api grace a id
 async function fetchProduct() {
-  return await fetch(`http://localhost:3000/api/products/${productId}`)
+  return await fetch(`api/products/${productId}`)
     .then(function (response) {
       return response.json();
     })

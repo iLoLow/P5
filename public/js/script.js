@@ -50,7 +50,7 @@ function generateproducts(products) {
 }
 
 async function main() {
-  const products = await getProducts("http://localhost:3000/api/products");
+  const products = await getProducts("api/products");
   generateproducts(products);
 }
 main();
