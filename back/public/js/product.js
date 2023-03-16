@@ -114,7 +114,7 @@ function addcart() {
           localStorage.setItem("productCart", JSON.stringify(productTable));
         }
       } else {
-        //classer les produits pas id
+        //classer les produits par id
         productTable.push(product);
         productTable.sort(function (a, b) {
           if (a._id < b._id) {

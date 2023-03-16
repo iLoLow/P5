@@ -171,7 +171,7 @@ function removeProduct(arrayCart) {
 }
 
 function form() {
-  //condition pour affiche que le panier et vide et pour retirer le formulaire
+  //condition pour afficher que le panier et vide et pour retirer le formulaire
   if (productsInCart.length === 0) {
     const sectionCartItem = document.querySelector("#cart__items");
     const h2CartEmpty = document.createElement("h2");

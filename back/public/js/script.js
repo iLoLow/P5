@@ -17,7 +17,7 @@ function generateproducts(products) {
     //Création balise a
     const link = document.createElement("a");
     //Ajout du href dans la balise a (id prodeuit)
-    link.href = "./product.html?id=" + products[index]._id;
+    link.href = "./html/product.html?id=" + products[index]._id;
     //création balise article
     const contener = document.createElement("article");
     //Balise article a l'interieur de la balise a
@@ -51,7 +51,6 @@ function generateproducts(products) {
 
 async function main() {
   const products = await getProducts("http://localhost:3000/api/products");
-
   generateproducts(products);
 }
 main();
